@@ -6,11 +6,11 @@ import pandas as pd
 
 # marks we count, a dash can be written in two ways
 PUNCTUATION = {
-    "comma": ",",
-    "semicolon": ";",
-    "dash": "-—",
-    "exclamation": "!",
-    "question": "?",
+    "comma": [","],
+    "semicolon": [";"],
+    "dash": ["—", "--"],
+    "exclamation": ["!"],
+    "question": ["?"],
 }
 
 WORD_RE = re.compile(r"[a-z']+")
