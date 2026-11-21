@@ -35,3 +35,8 @@ class BurrowsDelta:
     def predict(self, X):
         closest = self.distances(X).argmin(axis=1)
         return np.array([self.authors[i] for i in closest])
+
+    def confidence(self, X):
+        """Gap between the best and the second best author. Small gap means unsure."""
+        ordered = np.sort(self.distances(X), axis=1)
+        return ordered[:, 1] - ordered[:, 0]
