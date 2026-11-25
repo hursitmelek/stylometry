@@ -10,7 +10,7 @@ from src.features import build_table, top_words
 
 # below this gap the two best authors are too close to call,
 # pick the value from the coverage curve that run.py prints
-MIN_GAP = 0.10
+MIN_GAP = 0.05
 
 
 def train(books="data/books", size=1000, n_words=100):

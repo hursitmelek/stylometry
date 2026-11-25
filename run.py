@@ -8,7 +8,7 @@ from src import plots
 from src.corpus import load_chunks
 from src.delta import BurrowsDelta
 from src.evaluate import (MODELS, accuracy, accuracy_by_book, accuracy_interval,
-                          coverage_scores, cross_validate, feature_columns)
+                          balance, coverage_scores, cross_validate, feature_columns)
 from src.features import build_table, tokenize, top_words
 
 CHUNK_SIZES = [500, 1000, 2000, 5000]
@@ -55,6 +55,9 @@ def main():
     if not chunks:
         print(f"No books found in {args.books}")
         return
+    print(f"loaded {len(chunks)} chunks, balanced down to", end=" ")
+    chunks = balance(chunks)
+    print(len(chunks))
     show_corpus(chunks)
 
     # 2. the main run
@@ -71,7 +74,7 @@ def main():
     print("\nCHUNK SIZE")
     scores = {"delta": [], "logreg": []}
     for size in CHUNK_SIZES:
-        part = cross_validate(load_chunks(args.books, size), n_words=args.words)
+        part = cross_validate(balance(load_chunks(args.books, size)), n_words=args.words)
         for model in scores:
             scores[model].append(accuracy(part, model))
         print(f"  {size:<5} delta {scores['delta'][-1]:.3f}   logreg {scores['logreg'][-1]:.3f}")

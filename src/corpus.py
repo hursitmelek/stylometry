@@ -30,7 +30,9 @@ def strip_gutenberg(text):
 
 
 def clean_text(text):
-    # only fix spacing, punctuation is used as a feature later
+    # curly quotes would split "don't" into two words
+    text = text.replace("\u2019", "'").replace("\u2018", "'")
+    # only fix spacing, the rest of the punctuation is used as a feature later
     return re.sub(r"\s+", " ", text).strip()
 
 

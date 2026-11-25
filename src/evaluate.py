@@ -12,6 +12,23 @@ from src.features import PUNCTUATION, build_table, top_words
 MODELS = ["delta", "logreg", "majority", "random"]
 
 
+def balance(chunks, seed=42):
+    """Keep the same number of chunks per author, so nobody wins by writing more."""
+    by_author = {}
+    for chunk in chunks:
+        by_author.setdefault(chunk.author, []).append(chunk)
+
+    smallest = min(len(pieces) for pieces in by_author.values())
+    rng = np.random.default_rng(seed)
+
+    kept = []
+    for author in sorted(by_author):
+        pieces = by_author[author]
+        picked = rng.choice(len(pieces), size=smallest, replace=False)
+        kept.extend(pieces[i] for i in picked)
+    return kept
+
+
 def make_folds(chunks, n_folds=5, seed=42):
     """Split the books into folds. A book is never in train and test together."""
     books_by_author = {}

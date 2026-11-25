@@ -12,3 +12,7 @@ venv/
 # Editors
 .vscode/
 .idea/
+
+
+data/
+figures/
